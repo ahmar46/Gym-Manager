@@ -3,357 +3,421 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FitPro — Gym Manager</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>FitPro Cloud</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="app-shell">
+    <section class="auth-screen" id="authScreen">
+      <div class="auth-backdrop"></div>
+      <div class="auth-layout">
+        <div class="auth-copy">
+          <span class="eyebrow">Cloud gym SaaS</span>
+          <h1>Run your gym on Supabase, automate WhatsApp reminders, and track growth with real charts.</h1>
+          <p>
+            This version uses cloud auth, cloud database storage, scheduled reminder delivery, and
+            live analytics with Chart.js.
+          </p>
+          <div class="feature-points">
+            <div class="feature-point">
+              <strong>Supabase cloud backend</strong>
+              <span>Email auth, Postgres, RLS, and Edge Functions.</span>
+            </div>
+            <div class="feature-point">
+              <strong>Automatic WhatsApp reminders</strong>
+              <span>Trigger fee and absence reminders with Twilio or Meta.</span>
+            </div>
+            <div class="feature-point">
+              <strong>Real analytics</strong>
+              <span>Profit/loss, churn risk, and attendance charts.</span>
+            </div>
+          </div>
+          <div class="setup-banner hidden" id="setupBanner">
+            Add your Supabase config by copying `config.example.js` to `config.js`.
+          </div>
+        </div>
 
-  <!-- ===================== TOP HEADER (mobile & desktop) ===================== -->
-  <header class="top-header">
-    <button class="hamburger" id="hamburgerBtn" aria-label="Open menu">
-      <span></span><span></span><span></span>
-    </button>
-    <div class="header-brand">
-      <span class="brand-icon">💪</span>
-      <span class="brand-name">FitPro</span>
-    </div>
-    <div class="header-right">
-      <button class="icon-btn notif-btn" aria-label="Notifications">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-        <span class="badge" id="notifBadge">3</span>
-      </button>
-      <div class="avatar">A</div>
-    </div>
-  </header>
+        <div class="auth-card">
+          <div class="auth-switcher">
+            <button class="auth-tab active" data-auth-tab="login" type="button">Sign In</button>
+            <button class="auth-tab" data-auth-tab="register" type="button">Create Gym</button>
+          </div>
 
-  <!-- ===================== SIDEBAR (desktop) / DRAWER (mobile) ===================== -->
-  <div class="sidebar-overlay" id="sidebarOverlay"></div>
-  <nav class="sidebar" id="sidebar">
-    <div class="sidebar-logo">
-      <span class="brand-icon">💪</span>
-      <span class="brand-name">FitPro</span>
-    </div>
-    <ul class="nav-links">
-      <li>
-        <a href="#" class="nav-link active" data-page="dashboard">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-          Dashboard
-        </a>
-      </li>
-      <li>
-        <a href="#" class="nav-link" data-page="addMember">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
-          Add Member
-        </a>
-      </li>
-      <li>
-        <a href="#" class="nav-link" data-page="members">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-          Members
-        </a>
-      </li>
-      <li>
-        <a href="#" class="nav-link" data-page="attendance">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-          Attendance
-        </a>
-      </li>
-    </ul>
-    <div class="sidebar-footer">
-      <div class="trainer-card">
-        <div class="trainer-avatar">A</div>
-        <div class="trainer-info">
-          <span class="trainer-name">Admin</span>
-          <span class="trainer-role">Gym Owner</span>
-        </div>
-      </div>
-    </div>
-  </nav>
+          <form class="auth-form active" id="loginForm">
+            <h2>Welcome back</h2>
+            <p>Sign in to your gym workspace.</p>
+            <div class="field">
+              <label for="loginEmail">Email</label>
+              <input id="loginEmail" type="email" placeholder="owner@gym.com" />
+            </div>
+            <div class="field">
+              <label for="loginPassword">Password</label>
+              <input id="loginPassword" type="password" placeholder="Enter password" />
+            </div>
+            <button class="btn btn-primary btn-block" type="submit">Sign In</button>
+            <button class="btn btn-secondary btn-block" id="demoModeBtn" type="button">Open Demo Workspace</button>
+          </form>
 
-  <!-- ===================== MAIN CONTENT ===================== -->
-  <main class="main-content" id="mainContent">
-
-    <!-- ========== PAGE: DASHBOARD ========== -->
-    <section class="page active" id="page-dashboard">
-      <div class="page-header">
-        <div>
-          <h1 class="page-title">Dashboard</h1>
-          <p class="page-subtitle" id="todayDate"></p>
+          <form class="auth-form" id="registerForm">
+            <h2>Create a new gym workspace</h2>
+            <p>This creates the owner account and first gym.</p>
+            <div class="field">
+              <label for="registerGymName">Gym name</label>
+              <input id="registerGymName" type="text" placeholder="Iron Forge Fitness" />
+            </div>
+            <div class="field-grid">
+              <div class="field">
+                <label for="registerOwnerName">Owner name</label>
+                <input id="registerOwnerName" type="text" placeholder="Ahmar Khan" />
+              </div>
+              <div class="field">
+                <label for="registerPhone">Phone</label>
+                <input id="registerPhone" type="tel" placeholder="9876543210" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="registerEmail">Owner email</label>
+              <input id="registerEmail" type="email" placeholder="owner@gym.com" />
+            </div>
+            <div class="field">
+              <label for="registerPassword">Password</label>
+              <input id="registerPassword" type="password" placeholder="Minimum 6 characters" />
+            </div>
+            <button class="btn btn-primary btn-block" type="submit">Create Gym</button>
+          </form>
         </div>
-        <button class="btn btn-primary btn-sm" onclick="navigate('addMember')">+ Add Member</button>
-      </div>
-
-      <!-- Summary Cards -->
-      <div class="stats-grid" id="statsGrid">
-        <div class="stat-card stat-blue">
-          <div class="stat-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-          </div>
-          <div class="stat-body">
-            <span class="stat-label">Total Members</span>
-            <span class="stat-value" id="totalMembers">0</span>
-          </div>
-          <div class="stat-trend trend-up">↑ 12%</div>
-        </div>
-        <div class="stat-card stat-green">
-          <div class="stat-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-          </div>
-          <div class="stat-body">
-            <span class="stat-label">Active Members</span>
-            <span class="stat-value" id="activeMembers">0</span>
-          </div>
-          <div class="stat-trend trend-up">↑ 8%</div>
-        </div>
-        <div class="stat-card stat-orange">
-          <div class="stat-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          </div>
-          <div class="stat-body">
-            <span class="stat-label">Expiring Soon</span>
-            <span class="stat-value" id="expiringSoon">0</span>
-          </div>
-          <div class="stat-trend trend-down">↓ 2%</div>
-        </div>
-        <div class="stat-card stat-purple">
-          <div class="stat-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          </div>
-          <div class="stat-body">
-            <span class="stat-label">Today's Check-ins</span>
-            <span class="stat-value" id="todayAttendance">0</span>
-          </div>
-          <div class="stat-trend trend-up">↑ 5%</div>
-        </div>
-      </div>
-
-      <!-- Recent Members -->
-      <div class="section-card">
-        <div class="section-card-header">
-          <h2 class="section-title">Recent Members</h2>
-          <button class="btn btn-ghost btn-sm" onclick="navigate('members')">View All →</button>
-        </div>
-        <div id="recentMembersList" class="recent-list"></div>
-      </div>
-
-      <!-- Expiring Plans -->
-      <div class="section-card">
-        <div class="section-card-header">
-          <h2 class="section-title">⚠️ Expiring Plans (7 days)</h2>
-          <span class="badge-count" id="expiryBadge">0</span>
-        </div>
-        <div id="expiringList" class="recent-list"></div>
       </div>
     </section>
 
-    <!-- ========== PAGE: ADD MEMBER ========== -->
-    <section class="page" id="page-addMember">
-      <div class="page-header">
-        <div>
-          <h1 class="page-title">Add Member</h1>
-          <p class="page-subtitle">Fill in the member details below</p>
+    <section class="dashboard-shell hidden" id="dashboardShell">
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+          <div class="brand-mark">FP</div>
+          <div>
+            <h2>FitPro Cloud</h2>
+            <p id="sidebarGymName">Gym Workspace</p>
+          </div>
         </div>
-      </div>
 
-      <div class="form-card">
-        <div class="form-group">
-          <label class="form-label" for="memberName">Full Name *</label>
-          <input class="form-input" type="text" id="memberName" placeholder="e.g. Rahul Sharma" />
+        <nav class="sidebar-nav">
+          <button class="nav-item active" data-page="dashboard" type="button">Dashboard</button>
+          <button class="nav-item" data-page="members" type="button">Members</button>
+          <button class="nav-item" data-page="attendance" type="button">Attendance</button>
+          <button class="nav-item" data-page="staff" type="button">Staff</button>
+        </nav>
+
+        <div class="sidebar-card">
+          <span class="mini-label">Cloud status</span>
+          <strong id="rolePill">Owner</strong>
+          <p id="staffCapabilityText">Realtime gym operations on Supabase.</p>
         </div>
-        <div class="form-group">
-          <label class="form-label" for="memberPhone">Phone Number *</label>
-          <input class="form-input" type="tel" id="memberPhone" placeholder="e.g. 9876543210" />
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label" for="joiningDate">Joining Date *</label>
-            <input class="form-input" type="date" id="joiningDate" />
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <button class="menu-toggle" id="menuToggle" type="button">Menu</button>
+          <div>
+            <p class="topbar-label">Workspace</p>
+            <h1 id="workspaceTitle">Dashboard</h1>
           </div>
-          <div class="form-group">
-            <label class="form-label" for="memberPlan">Plan *</label>
-            <select class="form-input form-select" id="memberPlan">
-              <option value="">Select Plan</option>
-              <option value="Monthly">Monthly</option>
-              <option value="Quarterly">Quarterly</option>
-              <option value="Half-Yearly">Half-Yearly</option>
-              <option value="Annual">Annual</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Payment Status *</label>
-          <div class="radio-group">
-            <label class="radio-card">
-              <input type="radio" name="paymentStatus" value="Paid" />
-              <span class="radio-label">
-                <span class="radio-dot paid-dot"></span>
-                Paid
+          <div class="topbar-actions">
+            <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme" aria-pressed="false">
+              <span class="theme-toggle-track">
+                <span class="theme-toggle-thumb"></span>
               </span>
-            </label>
-            <label class="radio-card">
-              <input type="radio" name="paymentStatus" value="Pending" />
-              <span class="radio-label">
-                <span class="radio-dot pending-dot"></span>
-                Pending
-              </span>
-            </label>
-            <label class="radio-card">
-              <input type="radio" name="paymentStatus" value="Overdue" />
-              <span class="radio-label">
-                <span class="radio-dot overdue-dot"></span>
-                Overdue
-              </span>
-            </label>
+            </button>
+            <div class="user-badge">
+              <span id="currentUserName">Owner</span>
+              <small id="currentUserMeta">Cloud workspace</small>
+            </div>
+            <button class="btn btn-secondary" id="logoutBtn" type="button">Logout</button>
           </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="memberNotes">Notes (optional)</label>
-          <textarea class="form-input form-textarea" id="memberNotes" placeholder="Any additional info..."></textarea>
-        </div>
-        <div class="form-actions">
-          <button class="btn btn-outline" onclick="clearForm()">Clear</button>
-          <button class="btn btn-primary" onclick="addMember()">Add Member</button>
-        </div>
-      </div>
+        </header>
+
+        <section class="page active" id="page-dashboard">
+          <div class="hero-card">
+            <div>
+              <span class="eyebrow">Realtime operations</span>
+              <h2 id="heroTitle">Gym command center</h2>
+              <p id="heroSubtitle">Cloud-synced members, attendance, reminders, and analytics.</p>
+            </div>
+            <div class="hero-meta">
+              <span class="hero-chip" id="todayLabel">Today</span>
+              <span class="hero-chip" id="gymCreatedLabel">Live since</span>
+            </div>
+          </div>
+
+          <div class="stats-grid" id="statsGrid"></div>
+
+          <div class="grid-two">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Profit and cashflow</h3>
+                  <p>Collected, outstanding, and net position.</p>
+                </div>
+              </div>
+              <div class="chart-shell">
+                <canvas id="profitChart"></canvas>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Client churn risk</h3>
+                  <p>Healthy, at-risk, and expired members.</p>
+                </div>
+              </div>
+              <div class="chart-shell">
+                <canvas id="churnChart"></canvas>
+              </div>
+            </section>
+          </div>
+
+          <div class="grid-two">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Attendance trend</h3>
+                  <p>Last 7 days of check-ins.</p>
+                </div>
+              </div>
+              <div class="chart-shell">
+                <canvas id="attendanceChart"></canvas>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>WhatsApp reminder queue</h3>
+                  <p id="reminderSummary">No reminders queued.</p>
+                </div>
+                <button class="btn btn-primary" id="runReminderSyncBtn" type="button">Run reminder sync</button>
+              </div>
+              <div id="remindersList" class="stack-list"></div>
+            </section>
+          </div>
+
+          <div class="grid-two">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Recent members</h3>
+                  <p>Newest signups in this gym.</p>
+                </div>
+              </div>
+              <div id="recentMembersList" class="stack-list"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Active sessions</h3>
+                  <p>Members currently checked in.</p>
+                </div>
+              </div>
+              <div id="liveAttendanceList" class="stack-list"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="page" id="page-members">
+          <div class="section-heading">
+            <span class="eyebrow">Cloud member CRM</span>
+            <h2>Members</h2>
+            <p>All member records sync to Supabase instantly.</p>
+          </div>
+
+          <div class="grid-two">
+            <form class="panel" id="memberForm">
+              <div class="panel-head">
+                <div>
+                  <h3 id="memberFormTitle">Add member</h3>
+                  <p>Store profile, plan, payment, and notes.</p>
+                </div>
+              </div>
+              <div class="field">
+                <label for="memberName">Full name</label>
+                <input id="memberName" type="text" placeholder="Rahul Sharma" />
+              </div>
+              <div class="field-grid">
+                <div class="field">
+                  <label for="memberPhone">Phone</label>
+                  <input id="memberPhone" type="tel" placeholder="9876543210" />
+                </div>
+                <div class="field">
+                  <label for="memberGoal">Goal</label>
+                  <input id="memberGoal" type="text" placeholder="Weight loss" />
+                </div>
+              </div>
+              <div class="field-grid">
+                <div class="field">
+                  <label for="memberJoiningDate">Joining date</label>
+                  <input id="memberJoiningDate" type="date" />
+                </div>
+                <div class="field">
+                  <label for="memberPlan">Plan</label>
+                  <select id="memberPlan">
+                    <option value="">Select plan</option>
+                    <option value="Monthly">Monthly</option>
+                    <option value="Quarterly">Quarterly</option>
+                    <option value="Half-Yearly">Half-Yearly</option>
+                    <option value="Annual">Annual</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field-grid">
+                <div class="field">
+                  <label for="memberFee">Fee amount</label>
+                  <input id="memberFee" type="number" min="0" placeholder="1500" />
+                </div>
+                <div class="field">
+                  <label for="memberPaymentStatus">Payment status</label>
+                  <select id="memberPaymentStatus">
+                    <option value="">Select payment status</option>
+                    <option value="Paid">Paid</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Overdue">Overdue</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field">
+                <label for="memberNotes">Notes</label>
+                <textarea id="memberNotes" rows="4" placeholder="Injuries, preferred slot, trainer notes"></textarea>
+              </div>
+              <div class="button-row">
+                <button class="btn btn-secondary" id="memberFormReset" type="button">Reset</button>
+                <button class="btn btn-primary" id="memberSubmitBtn" type="submit">Save member</button>
+              </div>
+            </form>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Member directory</h3>
+                  <p id="membersSummary">0 members</p>
+                </div>
+              </div>
+              <div class="toolbar">
+                <input id="memberSearch" type="text" placeholder="Search by name or phone" />
+                <select id="memberStatusFilter">
+                  <option value="">All status</option>
+                  <option value="Active">Active</option>
+                  <option value="Expiring">Expiring</option>
+                  <option value="Expired">Expired</option>
+                </select>
+              </div>
+              <div id="membersList" class="list-table"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="page" id="page-attendance">
+          <div class="section-heading">
+            <span class="eyebrow">Attendance and floor time</span>
+            <h2>Attendance</h2>
+            <p>Check members in and out with cloud-synced sessions.</p>
+          </div>
+
+          <div class="grid-two">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Quick attendance</h3>
+                  <p>Search members and manage active time.</p>
+                </div>
+              </div>
+              <div class="toolbar toolbar-single">
+                <input id="attendanceSearch" type="text" placeholder="Search member name or phone" />
+              </div>
+              <div id="attendanceSearchResults" class="stack-list"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Today's sessions</h3>
+                  <p id="attendanceSummary">No sessions yet.</p>
+                </div>
+              </div>
+              <div id="attendanceSessionsList" class="stack-list"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="page" id="page-staff">
+          <div class="section-heading">
+            <span class="eyebrow">Staff access</span>
+            <h2>Staff</h2>
+            <p>Owners can provision staff users through the secure Edge Function.</p>
+          </div>
+
+          <div class="grid-two">
+            <form class="panel" id="staffForm">
+              <div class="panel-head">
+                <div>
+                  <h3>Create staff user</h3>
+                  <p>This creates a real auth user in Supabase.</p>
+                </div>
+              </div>
+              <div class="field-grid">
+                <div class="field">
+                  <label for="staffName">Full name</label>
+                  <input id="staffName" type="text" placeholder="Nisha Patel" />
+                </div>
+                <div class="field">
+                  <label for="staffPhone">Phone</label>
+                  <input id="staffPhone" type="tel" placeholder="9876543210" />
+                </div>
+              </div>
+              <div class="field-grid">
+                <div class="field">
+                  <label for="staffEmail">Email</label>
+                  <input id="staffEmail" type="email" placeholder="trainer@gym.com" />
+                </div>
+                <div class="field">
+                  <label for="staffPassword">Password</label>
+                  <input id="staffPassword" type="password" placeholder="Temporary password" />
+                </div>
+              </div>
+              <div class="field">
+                <label for="staffRole">Role</label>
+                <select id="staffRole">
+                  <option value="manager">Manager</option>
+                  <option value="trainer">Trainer</option>
+                  <option value="reception">Reception</option>
+                </select>
+              </div>
+              <div class="button-row">
+                <button class="btn btn-secondary" type="reset">Clear</button>
+                <button class="btn btn-primary" type="submit">Create staff user</button>
+              </div>
+            </form>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Team accounts</h3>
+                  <p id="staffSummary">0 staff users</p>
+                </div>
+              </div>
+              <div id="staffList" class="stack-list"></div>
+            </section>
+          </div>
+        </section>
+      </main>
     </section>
-
-    <!-- ========== PAGE: MEMBERS ========== -->
-    <section class="page" id="page-members">
-      <div class="page-header">
-        <div>
-          <h1 class="page-title">Members</h1>
-          <p class="page-subtitle" id="membersCount">0 members registered</p>
-        </div>
-        <button class="btn btn-primary btn-sm" onclick="navigate('addMember')">+ Add</button>
-      </div>
-
-      <!-- Search & Filter -->
-      <div class="search-filter-bar">
-        <div class="search-wrap">
-          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input class="search-input" type="text" id="searchInput" placeholder="Search by name or phone..." oninput="renderMembers()" />
-        </div>
-        <select class="filter-select" id="filterPlan" onchange="renderMembers()">
-          <option value="">All Plans</option>
-          <option value="Monthly">Monthly</option>
-          <option value="Quarterly">Quarterly</option>
-          <option value="Half-Yearly">Half-Yearly</option>
-          <option value="Annual">Annual</option>
-        </select>
-        <select class="filter-select" id="filterStatus" onchange="renderMembers()">
-          <option value="">All Status</option>
-          <option value="Active">Active</option>
-          <option value="Expired">Expired</option>
-        </select>
-      </div>
-
-      <!-- Desktop Table -->
-      <div class="table-wrap" id="tableWrap">
-        <table class="members-table" id="membersTable">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Phone</th>
-              <th>Plan</th>
-              <th>Joined</th>
-              <th>Expiry</th>
-              <th>Payment</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="membersTableBody"></tbody>
-        </table>
-      </div>
-
-      <!-- Mobile Card Layout -->
-      <div class="members-cards" id="membersCards"></div>
-
-      <div class="empty-state" id="membersEmptyState" style="display:none">
-        <div class="empty-icon">👥</div>
-        <p class="empty-title">No members yet</p>
-        <p class="empty-sub">Add your first gym member to get started</p>
-        <button class="btn btn-primary" onclick="navigate('addMember')">+ Add Member</button>
-      </div>
-    </section>
-
-    <!-- ========== PAGE: ATTENDANCE ========== -->
-    <section class="page" id="page-attendance">
-      <div class="page-header">
-        <div>
-          <h1 class="page-title">Attendance</h1>
-          <p class="page-subtitle" id="attendanceDate"></p>
-        </div>
-        <div class="stat-pill" id="todayCountPill">0 today</div>
-      </div>
-
-      <!-- Quick Check-in Search -->
-      <div class="section-card checkin-card">
-        <h2 class="section-title">Quick Check-In</h2>
-        <p class="section-sub">Search a member and mark attendance</p>
-        <div class="search-wrap" style="margin-top:12px">
-          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input class="search-input" type="text" id="attendanceSearch" placeholder="Search member name..." oninput="renderAttendanceList()" />
-        </div>
-        <div id="attendanceSearchResults" class="attendance-results"></div>
-      </div>
-
-      <!-- Today's Attendance List -->
-      <div class="section-card">
-        <div class="section-card-header">
-          <h2 class="section-title">Today's Check-ins</h2>
-          <span class="badge-count" id="checkinCount">0</span>
-        </div>
-        <div id="todayCheckinList" class="checkin-list"></div>
-        <div class="empty-state" id="attendanceEmpty" style="display:none">
-          <div class="empty-icon">📋</div>
-          <p class="empty-sub">No check-ins yet today</p>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- ===================== BOTTOM NAV (mobile) ===================== -->
-  <nav class="bottom-nav" id="bottomNav">
-    <button class="bottom-nav-item active" data-page="dashboard" onclick="navigate('dashboard')">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-      <span>Home</span>
-    </button>
-    <button class="bottom-nav-item" data-page="addMember" onclick="navigate('addMember')">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
-      <span>Add</span>
-    </button>
-    <button class="bottom-nav-item" data-page="members" onclick="navigate('members')">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-      <span>Members</span>
-    </button>
-    <button class="bottom-nav-item" data-page="attendance" onclick="navigate('attendance')">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-      <span>Attendance</span>
-    </button>
-  </nav>
-
-  <!-- ===================== TOAST NOTIFICATION ===================== -->
-  <div class="toast" id="toast"></div>
-
-  <!-- ===================== MEMBER DETAIL MODAL ===================== -->
-  <div class="modal-overlay" id="modalOverlay">
-    <div class="modal" id="memberModal">
-      <div class="modal-header">
-        <h2 class="modal-title" id="modalMemberName">Member Details</h2>
-        <button class="modal-close" onclick="closeModal()">✕</button>
-      </div>
-      <div class="modal-body" id="modalBody"></div>
-      <div class="modal-footer">
-        <button class="btn btn-danger btn-sm" id="deleteMemberBtn">Delete Member</button>
-        <button class="btn btn-outline btn-sm" onclick="closeModal()">Close</button>
-      </div>
-    </div>
   </div>
 
-  <script src="script.js"></script>
+  <div class="toast" id="toast"></div>
+
+  <script src="config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>

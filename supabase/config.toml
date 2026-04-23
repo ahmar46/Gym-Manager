@@ -1,0 +1,5 @@
+[functions.send-whatsapp-reminders]
+verify_jwt = false
+
+[functions.create-staff-user]
+verify_jwt = true
